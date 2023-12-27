@@ -36,58 +36,25 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List View'),
+        title: Text('Grid view'),
         backgroundColor: Colors.teal,
         centerTitle: true,
       ),
       body: SafeArea(
-        child:ListView.builder(
+        child: GridView.builder(
+          scrollDirection: Axis.vertical,
             itemCount: MyItems.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 2), 
             itemBuilder: (context, index){
               return InkWell(
-                onDoubleTap: (){mySnackBar(context, MyItems[index]['Age'].toString());},
+                onTap: (){mySnackBar(context, MyItems[index]['Age'].toString());},
                 child: ListTile(
-                  leading: Icon(Icons.star),
+                  leading: Icon(Icons.access_alarm),
                   title: Text(MyItems[index]['Name'].toString()),
                   subtitle: Text(MyItems[index]['City'].toString()),
                 ),
               );
-
-
-              //<----ListTile----->
-              /*ListTile(
-                  leading: Icon(Icons.star),
-                  title: Text(MyItems[index]['Name'].toString()),
-                  subtitle: Text(MyItems[index]['City'].toString()),
-                  onTap: (){mySnackBar(context, MyItems[index]['Age'].toString());},
-                );*/
-            }
-        ),
-        // ListView(
-        //   children: [
-        //     ListTile(
-        //       leading: Icon(Icons.settings,),
-        //       title: Text('Setting'),
-        //       subtitle: Text('This is setting'),
-        //       trailing: Icon(Icons.arrow_forward),
-        //       onTap: (){mySnackBar(context, 'this is setting');},
-        //     ),
-        //     ListTile(
-        //       leading: Icon(Icons.settings,),
-        //       title: Text('Setting'),
-        //       subtitle: Text('This is setting'),
-        //       trailing: Icon(Icons.arrow_forward),
-        //       onTap: (){mySnackBar(context, 'this is setting');},
-        //     ),
-        //     ListTile(
-        //       leading: Icon(Icons.settings,),
-        //       title: Text('Setting'),
-        //       subtitle: Text('This is setting'),
-        //       trailing: Icon(Icons.arrow_forward),
-        //       onTap: (){mySnackBar(context, 'this is setting');},
-        //     ),
-        //   ],
-        // ),
+            })
 
       ),
     );
