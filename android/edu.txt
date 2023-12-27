@@ -1,0 +1,17 @@
+   //========Route set(HashRouting)========
+
+    return MaterialApp(
+     initialRoute: '/',
+      routes: {
+       '/':(context)=>HomePage(),
+        '/login':(context)=>LoginPage(),
+        '/profile':(context)=>ProfilePage(),
+      },
+    );
+
+    //========Route by Name Navigation========
+    Navigator.pushNamed(context, "/login"); ===Store Navigation History
+    Navigator.pushReplacementNamed(context, '/login');===Clear Navigation History //login,Splash,Registration
+
+    //=======Material page Route======
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));

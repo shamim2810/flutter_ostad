@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ostad/gridview-jesondata.dart';
-import 'gridview.dart';
+import 'package:flutter_ostad/Home.dart';
+import 'package:flutter_ostad/Login.dart';
+import 'package:flutter_ostad/Profile.dart';
 
 void main(){
   runApp(MyApp());
@@ -12,8 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //home: HomePage(),
-      home: HomeActivity(),
+      home: HomePage(),
     );
+
+    /* return MaterialApp(
+     initialRoute: '/',
+      routes: {
+       '/':(context)=>HomePage(),
+        '/login':(context)=>LoginPage(),
+        '/profile':(context)=>ProfilePage(),
+      },
+    );*/
   }
 }
