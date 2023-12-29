@@ -15,17 +15,17 @@ class HomePage extends StatelessWidget {
       "price": "499.99"
     },
     {
-      "img": "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_640.jpg",
+      "img": "https://cdn.pixabay.com/photo/2015/05/04/10/16/vegetables-752153_640.jpg",
       "title": "Student Workstation",
       "price": "579.99"
     },
     {
-      "img": "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_640.jpg",
+      "img": "https://cdn.pixabay.com/photo/2016/08/11/08/04/vegetables-1584999_640.jpg",
       "title": "Gaming Powerhouse",
       "price": "1299.99"
     },
     {
-      "img": "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_640.jpg",
+      "img": "https://cdn.pixabay.com/photo/2013/07/13/01/22/vegetables-155616_640.png",
       "title": "Professional Desktop",
       "price": "825.50"
     },
