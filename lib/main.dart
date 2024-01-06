@@ -1,6 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-/// KISS - Keep It Simple, Stupid
 
 void main(){
   runApp(MyApp());
@@ -11,112 +10,111 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: HomeScreen(),
     );
   }
 }
-
-/// Mutable
-/// Immutable
-
-/// Widget - two types
-/// Stateless - Immutable
-/// Stateful - Mutable
-
-/// Stateful - two component
-/// Widget
-/// State
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-            },
-            child: Text('Go to Home')),
-      ),
-    );
-  }
-}
-
-
 class HomeScreen extends StatefulWidget {
-   HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    print('init State');
-    /// on start a screen
-    ///  1
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('didChangeDependencies');
-    /// 2
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    /// 4
-    print('onUpdateWidget');
-    super.didUpdateWidget(oldWidget);
-  }
-
   int count = 0;
-
   @override
   Widget build(BuildContext context) {
-    /// 3
+
+    // print(MediaQuery.of(context).orientation);
+    // print(MediaQuery.of(context).size.height);
+    // print(MediaQuery.of(context).size.width);
+    // print(MediaQuery.of(context).size.aspectRatio);
+    // print(MediaQuery.of(context).size.flipped);
+    // print(MediaQuery.of(context).size.longestSide);
+    // print(MediaQuery.of(context).size.shortestSide);
+    // print(MediaQuery.of(context).displayFeatures);
+    // print(MediaQuery.of(context).devicePixelRatio);
+    // print(MediaQuery.sizeOf(context));
+    // print(MediaQuery.orientationOf(context));
+    // print(MediaQuery.devicePixelRatioOf(context));
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: const Text('MediaQuery Wrap LayoutBuilder'),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),
+  /*    body: Column(
+        children: [
+          Scrollbar(
+            thickness: 3,
+            radius: Radius.circular(30),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhv'),
+                  Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhvdfklsdf'),
+                  Text('kfjkslkdflkdfflgkgs'),
+                ],
+              ),
+            ),
+          ),
+           Wrap(
+            alignment: WrapAlignment.center,
+           crossAxisAlignment: WrapCrossAlignment.center,
+           spacing: 10,
+           children: [
+             Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhv'),
+             Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhvdfklsdf'),
+             Text('kfjkslkdflkdfflgkgsatertyry'),
+           ],
+         ),
+          OrientationBuilder(
+              builder: (context, orientation) {
+                print(orientation);
+                if(orientation == Orientation.portrait){
+                  return Text('Screen looks good');
+                }else if(orientation == Orientation.landscape){
+                  return Text('Screen is too wider');
+                }else{
+                  return Text('Unknow');
+                }
+              },
+          ),
+          Center(
+            child: Text(count.toString()),
+          ),
+        ],
+      ),*/
+
       body: Center(
-        child: Text(count.toString(), style: TextStyle(
-          fontSize: 32,
-        ),),
+        child: LayoutBuilder(
+            builder: (context, constraints){
+              if(constraints.maxWidth < 300 ){
+                return Text('Tiny device');
+              }else if(constraints.maxWidth < 500){
+                return Text('Normal device');
+              }else if(constraints.maxWidth < 700){
+                return Text('Tablet device');
+              }else if(constraints.maxWidth < 1200){
+                return Text('Laptop device');
+              }else{
+                return Text('Too large');
+              }
+            }
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
             count = count + 1;
             setState(() {
-
             });
           },
-        child: Icon(Icons.add),
+          child: const Icon(Icons.add),
       ),
     );
-  }
-  @override
-  void deactivate() {
-    super.deactivate();
-    print('deactivated');
-  }
-
-  @override
-  void dispose() {
-    print('dispose');
-    super.dispose();
   }
 }
 
