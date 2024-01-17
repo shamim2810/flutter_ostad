@@ -26,93 +26,64 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
-    // print(MediaQuery.of(context).orientation);
-    // print(MediaQuery.of(context).size.height);
-    // print(MediaQuery.of(context).size.width);
-    // print(MediaQuery.of(context).size.aspectRatio);
-    // print(MediaQuery.of(context).size.flipped);
-    // print(MediaQuery.of(context).size.longestSide);
-    // print(MediaQuery.of(context).size.shortestSide);
-    // print(MediaQuery.of(context).displayFeatures);
-    // print(MediaQuery.of(context).devicePixelRatio);
-    // print(MediaQuery.sizeOf(context));
-    // print(MediaQuery.orientationOf(context));
-    // print(MediaQuery.devicePixelRatioOf(context));
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MediaQuery Wrap LayoutBuilder'),
+        title: const Text('Expended AspectRatio'),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),
-  /*    body: Column(
+      body: Column(
         children: [
-          Scrollbar(
-            thickness: 3,
-            radius: Radius.circular(30),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhv'),
-                  Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhvdfklsdf'),
-                  Text('kfjkslkdflkdfflgkgs'),
-                ],
-              ),
+          /*Expanded(
+            flex: 2,
+            child: Container(
+              width: double.infinity,
+              color: Colors.blue,
             ),
           ),
-           Wrap(
-            alignment: WrapAlignment.center,
-           crossAxisAlignment: WrapCrossAlignment.center,
-           spacing: 10,
-           children: [
-             Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhv'),
-             Text('kdsfjgkjjsflskfsdfhbvgjjsdkjgdkljfhvdfklsdf'),
-             Text('kfjkslkdflkdfflgkgsatertyry'),
-           ],
-         ),
-          OrientationBuilder(
-              builder: (context, orientation) {
-                print(orientation);
-                if(orientation == Orientation.portrait){
-                  return Text('Screen looks good');
-                }else if(orientation == Orientation.landscape){
-                  return Text('Screen is too wider');
-                }else{
-                  return Text('Unknow');
-                }
-              },
+          Expanded(
+            flex: 3,
+            child: Container(
+              width: double.infinity,
+              color: Colors.pink,
+            ),
           ),
-          Center(
-            child: Text(count.toString()),
+          Expanded(
+            flex: 5,
+            child: Container(
+              width: double.infinity,
+              color: Colors.brown,
+            ),
+          ),*/
+          /*SizedBox(
+            width: 100,
+            height: 100,
+            child: Text('kjsdsdkjlkf lksdjdsflkj sdldkjflksjf lkjsddflfkjsd lksjdfflkjsfdd kjsdffjlk'),
           ),
+          SizedBox(
+            height: 500,
+            width: 2000,
+            child: FractionallySizedBox(
+              heightFactor: 0.9,
+                widthFactor: 0.7,
+                alignment: Alignment.center,
+                child: Text('jsdfjkhsf kjhsffkjfss jhskfhs')),
+          ),
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: Text('skflkslk'),
+          ),*/
+          SizedBox(
+            width: 100,
+            child: AspectRatio(
+                aspectRatio: 3/5,
+              child: Container(
+                color: Colors.red,
+              ),
+            ),
+          )
         ],
-      ),*/
-
-      body: Center(
-        child: LayoutBuilder(
-            builder: (context, constraints){
-              if(constraints.maxWidth < 300 ){
-                return Text('Tiny device');
-              }else if(constraints.maxWidth < 500){
-                return Text('Normal device');
-              }else if(constraints.maxWidth < 700){
-                return Text('Tablet device');
-              }else if(constraints.maxWidth < 1200){
-                return Text('Laptop device');
-              }else{
-                return Text('Too large');
-              }
-            }
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            count = count + 1;
-            setState(() {
-            });
-          },
-          child: const Icon(Icons.add),
       ),
     );
   }
