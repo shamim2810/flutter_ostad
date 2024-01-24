@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ostad/sum_app.dart';
+import 'package:flutter_ostad/water_app.dart';
 
 void main(){
   runApp(MyApp());
