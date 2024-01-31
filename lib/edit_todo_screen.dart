@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ostad/todo.dart';
 
 class EditTodoScreen extends StatefulWidget {
-  const EditTodoScreen({super.key});
+  const EditTodoScreen({super.key, required this.todo});
+
+  final Todo todo;
 
   @override
   State<EditTodoScreen> createState() => _EditTodoScreenState();
@@ -10,7 +13,16 @@ class EditTodoScreen extends StatefulWidget {
 class _EditTodoScreenState extends State<EditTodoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleTEConroller = TextEditingController();
-  final TextEditingController _descriptionTEConroller = TextEditingController();
+  late final TextEditingController _descriptionTEConroller =
+      TextEditingController(text: widget.todo.description);
+
+  @override
+  void initState() {
+    super.initState();
+    _titleTEConroller.text = widget.todo.title;
+    _descriptionTEConroller.text = widget.todo.description;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +42,9 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                 decoration: const InputDecoration(
                   hintText: 'Title',
                 ),
-                validator: (String? value){
+                validator: (String? value) {
                   final v = value ?? '';
-                  if(v.trim().isEmpty){
+                  if (v.trim().isEmpty) {
                     return 'Enter your title';
                   }
                   return null;
@@ -45,12 +57,10 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                 controller: _descriptionTEConroller,
                 maxLines: 10,
                 maxLength: 1000,
-                decoration: const InputDecoration(
-                    hintText: 'Description'
-                ),
-                validator: (String? value){
+                decoration: const InputDecoration(hintText: 'Description'),
+                validator: (String? value) {
                   final v = value ?? '';
-                  if(value?.trim().isEmpty ?? true){
+                  if (value?.trim().isEmpty ?? true) {
                     return 'Enter your Description';
                   }
                   return null;
@@ -64,8 +74,13 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                 width: MediaQuery.sizeOf(context).width,
                 child: ElevatedButton(
                   onPressed: () {
-                    if(_formKey.currentState!.validate()){
-                      Navigator.pop(context);
+                    if (_formKey.currentState!.validate()) {
+                      Todo todo = Todo(
+                        _titleTEConroller.text.trim(),
+                        _descriptionTEConroller.text.trim(),
+                        DateTime.now(),
+                      );
+                      Navigator.pop(context, todo);
                     }
                   },
                   child: Text('Update'),
@@ -79,7 +94,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _titleTEConroller.dispose();
     _descriptionTEConroller.dispose();
     super.dispose();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ostad/todo.dart';
 
 class AddNewTodoScreen extends StatefulWidget {
   const AddNewTodoScreen({super.key});
@@ -64,7 +65,12 @@ class _AddNewTodoScreenState extends State<AddNewTodoScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pop(context);
+                      Todo todo = Todo(
+                        _titleTEConroller.text.trim(),
+                        _descriptionTEConroller.text.trim(),
+                        DateTime.now(),
+                      );
+                      Navigator.pop(context, todo);
                     }
                   },
                   child: Text('Add'),
