@@ -190,4 +190,15 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
     _adNewProductInProgress = false;
     setState(() {});
   }
+
+  @override
+  void dispose() {
+    _imageTEController.dispose();
+    _nameTEController.dispose();
+    _quantityTEController.dispose();
+    _totalPriceTEController.dispose();
+    _unitPriceTEController.dispose();
+    _codeTEController.dispose();
+    super.dispose();
+  }
 }

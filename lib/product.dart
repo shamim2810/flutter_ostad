@@ -31,4 +31,16 @@ class Product{
     totalPrice = json['TotalPrice'];
     createDate = json['CreateDate'];
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "Img": image,
+      "ProductCode": produtCode,
+      "ProductName": productName,
+      "Qty": quantity,
+      "TotalPrice": totalPrice,
+      "UnitPrice": unitPrice,
+      "_id": id,
+    };
+  }
 }

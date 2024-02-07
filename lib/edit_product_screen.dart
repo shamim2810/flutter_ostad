@@ -1,14 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_ostad/product.dart';
+import 'package:http/http.dart';
 
 class EditProductScreen extends StatefulWidget {
-  const EditProductScreen({super.key});
+  const EditProductScreen({super.key, required this.product});
+
+  final Product product;
 
   @override
   State<EditProductScreen> createState() => _EditProductScreenState();
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
-
   final TextEditingController _nameTEController = TextEditingController();
   final TextEditingController _codeTEController = TextEditingController();
   final TextEditingController _unitPriceTEController = TextEditingController();
@@ -17,6 +22,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final TextEditingController _imageTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _updateProductInProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameTEController.text = widget.product.productName ?? '';
+    _codeTEController.text = widget.product.produtCode ?? '';
+    _unitPriceTEController.text = widget.product.unitPrice ?? '';
+    _quantityTEController.text = widget.product.quantity ?? '';
+    _totalPriceTEController.text = widget.product.totalPrice ?? '';
+    _imageTEController.text = widget.product.image ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +54,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Product name',
                     labelText: 'Product name',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product name';
                     }
                     return null;
@@ -52,8 +70,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Product code',
                     labelText: 'Product code',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product code';
                     }
                     return null;
@@ -68,8 +86,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Unit price',
                     labelText: 'Unit price',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product unit price';
                     }
                     return null;
@@ -84,8 +102,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Enter Quantity',
                     labelText: 'Enter Quantity',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product quantity';
                     }
                     return null;
@@ -100,8 +118,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Total price',
                     labelText: 'Total price',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product total price';
                     }
                     return null;
@@ -116,8 +134,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     hintText: 'Image',
                     labelText: 'Image',
                   ),
-                  validator: (String? value){
-                    if(value?.trim().isEmpty ?? true){
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
                       return 'Enter your product image';
                     }
                     return null;
@@ -128,11 +146,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if(_formKey.currentState!.validate()){}
-                    },
-                    child: const Text('Update'),
+                  child: Visibility(
+                    visible: _updateProductInProgress == false,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _updateProduct();
+                        }
+                      },
+                      child: const Text('Update'),
+                    ),
                   ),
                 ),
               ],
@@ -141,5 +167,67 @@ class _EditProductScreenState extends State<EditProductScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _updateProduct() async {
+    _updateProductInProgress = true;
+    setState(() {});
+    Uri url = Uri.parse(
+        'https://crud.teamrabbil.com/api/v1/UpdateProduct/${widget.product.id}');
+    Product product =Product(
+      id: widget.product.id,
+      image: _imageTEController.text.trim(),
+      produtCode: _codeTEController.text.trim(),
+      productName: _nameTEController.text.trim(),
+      quantity: _quantityTEController.text.trim(),
+      totalPrice: _totalPriceTEController.text.trim(),
+      unitPrice: _unitPriceTEController.text.trim(),
+    );
+    //   "Img": _imageTEController.text.trim(),
+    //   "ProductCode": _codeTEController.text.trim(),
+    //   "ProductName": _nameTEController.text.trim(),
+    //   "Qty": _quantityTEController.text.trim(),
+    //   "TotalPrice": _totalPriceTEController.text.trim(),
+    //   "UnitPrice": _unitPriceTEController.text.trim(),
+    //   "_id": widget.product.id,
+    // };
+    print(product.toJson());
+    final Response response = await post(
+      url,
+      body: jsonEncode(product.toJson(),), headers: {'Content-type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      final decodedData = jsonDecode(response.body);
+      if (decodedData['status'] == 'success') {
+        Navigator.pop(context, true);
+      } else {
+        _updateProductInProgress = true;
+        setState(() {});
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Product update failed! Try again.'),
+          ),
+        );
+      }
+    } else {
+      _updateProductInProgress = true;
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product update failed! Try again.'),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose(){
+    _imageTEController.dispose();
+    _nameTEController.dispose();
+    _quantityTEController.dispose();
+    _totalPriceTEController.dispose();
+    _unitPriceTEController.dispose();
+    _codeTEController.dispose();
+    super.dispose();
   }
 }
